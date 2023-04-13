@@ -19,6 +19,20 @@
 			<Setter Property="Background" Value="CornflowerBlue"/>
 			<Setter Property="MinWidth" Value="600"/>
 		</Style>
+		<Style Selector="TextBox.SearchBar">
+			<Setter Property="FontSize" Value="20"/>
+			<Setter Property="Margin" Value="10"/>
+			<Setter Property="Watermark" Value="Tìm kiếm"/>
+		</Style>
+		<Style Selector="TextBlock#InvoiceHeader">
+			<Setter Property="FontSize" Value="20"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="TextAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Padding" Value="0,20,0,20"/>
+			<Setter Property="Background" Value="Bisque"/>
+		</Style>
 		<Style Selector="RadioButton.HeaderButton">
 			<Setter Property="Background" Value="Aquamarine"/>
 			<Setter Property="Padding" Value="0,10,0,10"/>
@@ -47,7 +61,7 @@
 	
 	<StackPanel>
 		<Grid Name="Header" Height="60" ColumnDefinitions="1*,1*,1*">
-			<RadioButton Name="SalesButton" Classes="HeaderButton">
+			<RadioButton Name="SalesButton" IsChecked="True" Classes="HeaderButton">
 				<TextBlock>Hoá đơn</TextBlock>
 			</RadioButton>
 			<RadioButton Name="InventoryButton" Classes="HeaderButton" Grid.Column="1">
@@ -58,9 +72,15 @@
 			</RadioButton>
 			
 		</Grid>
-		<Grid Name="SalesPanel" IsVisible="{Binding	#SalesButton.IsChecked}" ColumnDefinitions="1*,1*">
+		<Grid Name="SalesPanel" IsVisible="{Binding	#SalesButton.IsChecked}" ColumnDefinitions="1*,1,1*">
 			<StackPanel>
-				
+				<TextBox Name="SalesSearchBar" Classes="SearchBar"></TextBox>
+			</StackPanel>
+			<GridSplitter Grid.Column="1" Background="Black" ResizeDirection="Columns"/>
+			<StackPanel Grid.Column="2">
+				<TextBlock Name="InvoiceHeader">
+					Hoá đơn
+				</TextBlock>
 			</StackPanel>
 		</Grid>
 	</StackPanel>
