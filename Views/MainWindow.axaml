@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="GroceryStoreManager.Views.MainWindow"
+		WindowState="Maximized"
         Icon="/Assets/avalonia-logo.ico"
         Title="GroceryStoreManager">
 
@@ -13,7 +14,56 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+	<Window.Styles>
+		<Style Selector="Grid#Header">
+			<Setter Property="Background" Value="CornflowerBlue"/>
+			<Setter Property="MinWidth" Value="600"/>
+		</Style>
+		<Style Selector="RadioButton.HeaderButton">
+			<Setter Property="Background" Value="Aquamarine"/>
+			<Setter Property="Padding" Value="0,10,0,10"/>
+			<Setter Property="Margin" Value="20,0,20,0"/>
+			<Setter Property="CornerRadius" Value="10"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		</Style>
+		<Style Selector="RadioButton.HeaderButton /template/ Ellipse">
+			<Setter Property="IsVisible" Value="False"/>
+		</Style>
+		<Style Selector="RadioButton.HeaderButton /template/ ContentPresenter">
+			<Setter Property="Padding" Value="-15,0,0,0"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="RadioButton.HeaderButton /template/ Border:pointerover">
+			<Setter Property="Background" Value="Beige"/>
+		</Style>
+		<Style Selector="RadioButton.HeaderButton:checked">
+			<Setter Property="Background" Value="Beige"/>
+		</Style>
+		<Style Selector=".HeaderButton > TextBlock">
+			<Setter Property="FontSize" Value="20"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+		</Style>
+	</Window.Styles>
+	
+	<StackPanel>
+		<Grid Name="Header" Height="60" ColumnDefinitions="1*,1*,1*">
+			<RadioButton Name="SalesButton" Classes="HeaderButton">
+				<TextBlock>Hoá đơn</TextBlock>
+			</RadioButton>
+			<RadioButton Name="InventoryButton" Classes="HeaderButton" Grid.Column="1">
+				<TextBlock>Kho hàng</TextBlock>
+			</RadioButton>
+			<RadioButton Name="HistoryButton" Classes="HeaderButton" Grid.Column="2">
+				<TextBlock>Lịch sử</TextBlock>
+			</RadioButton>
+			
+		</Grid>
+		<Grid Name="SalesPanel" IsVisible="{Binding	#SalesButton.IsChecked}" ColumnDefinitions="1*,1*">
+			<StackPanel>
+				
+			</StackPanel>
+		</Grid>
+	</StackPanel>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
 </Window>
