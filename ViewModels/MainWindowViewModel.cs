@@ -1,4 +1,6 @@
-﻿namespace GroceryStoreManager.ViewModels
+﻿using Microsoft.VisualBasic;
+
+namespace GroceryStoreManager.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
