@@ -1,9 +1,16 @@
-﻿using Microsoft.VisualBasic;
+﻿using Avalonia.Interactivity;
+using GroceryStoreManager.Models;
+using Microsoft.VisualBasic;
 
 namespace GroceryStoreManager.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public string Greeting => "Welcome to Avalonia!";
+        public Inventory Inventory { get; set; }
+        public MainWindowViewModel()
+        {
+            Inventory = new Inventory();
+            Inventory.Read();
+        }
     }
 }

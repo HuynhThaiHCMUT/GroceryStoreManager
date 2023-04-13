@@ -7,7 +7,8 @@
         x:Class="GroceryStoreManager.Views.MainWindow"
 		WindowState="Maximized"
         Icon="/Assets/avalonia-logo.ico"
-        Title="GroceryStoreManager">
+        Title="GroceryStoreManager"
+		Closed="MainWindow_Closed">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -70,7 +71,6 @@
 			<RadioButton Name="HistoryButton" Classes="HeaderButton" Grid.Column="2">
 				<TextBlock>Lịch sử</TextBlock>
 			</RadioButton>
-			
 		</Grid>
 		<Grid Name="SalesPanel" IsVisible="{Binding	#SalesButton.IsChecked}" ColumnDefinitions="1*,1,1*">
 			<StackPanel>

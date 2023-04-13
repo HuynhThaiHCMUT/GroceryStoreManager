@@ -1,4 +1,7 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
+using GroceryStoreManager.Models;
+using GroceryStoreManager.ViewModels;
 
 namespace GroceryStoreManager.Views
 {
@@ -7,6 +10,10 @@ namespace GroceryStoreManager.Views
         public MainWindow()
         {
             InitializeComponent();
+        }
+        void MainWindow_Closed(object sender, System.EventArgs e)
+        {
+            ((MainWindowViewModel)this.DataContext).Inventory.Save();
         }
     }
 }

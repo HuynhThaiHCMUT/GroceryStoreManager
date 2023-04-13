@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GroceryStoreManager.Models
 {
-    internal class Unit
+    public class Unit
     {
         public string Name { get; set; }
         public int Weight { get; set; }
@@ -20,17 +20,19 @@ namespace GroceryStoreManager.Models
             Price = price;
             BasePrice = basePrice;
         }
+        //Only compare unit's name
         public override bool Equals(object? obj)
         {
             if (obj is not Unit) return false;
             return (Name == ((Unit)obj).Name);
         }
+        //Convert to saved text form
         public string ToData()
         {
             return Name.Replace(' ', '_') + " " + Weight.ToString() + " " + Price.ToString() + " " + BasePrice.ToString();
         }
     }
-    internal class Product
+    public class Product
     {
         public long Id { get; set; }
         public string Name { get; set; }
@@ -43,7 +45,8 @@ namespace GroceryStoreManager.Models
             Quantity = quantity;
             Units = new List<Unit>();
         }
-        public void AddUnit(Unit unit)
+        //Return true if add successfully, false if unit already exist
+        public bool AddUnit(Unit unit)
         {
             int i = Units.IndexOf(unit);
             if (i == -1)
@@ -52,10 +55,19 @@ namespace GroceryStoreManager.Models
             }
             else
             {
-                Units.RemoveAt(i);
-                Units.Insert(i, unit);
+                return false;
             }
+            return true;
         }
+        public void EditUnit(int index, Unit unit)
+        {
+            Units[index] = unit;
+        }
+        public void RemoveUnit(int index)
+        {
+            Units.RemoveAt(index);
+        }
+        //Convert to saved text form
         public string ToData()
         {
             string s = "";
@@ -66,13 +78,14 @@ namespace GroceryStoreManager.Models
             return Id.ToString() + " " + Name.Replace(' ', '_') + " " + Quantity.ToString() + s;
         }
     }
-    internal class Inventory
+    public class Inventory
     {
         public Dictionary<long, Product> ProductList { get; set; }
         public Inventory()
         {
             ProductList = new Dictionary<long, Product>();
         }
+        //Read inventory data from text file
         public void Read()
         {
             string path = @"ProductData";
@@ -97,6 +110,7 @@ namespace GroceryStoreManager.Models
                 }
             }
         }
+        //Save current data to text file
         public void Save()
         {
             string path = @"ProductData";
@@ -108,6 +122,50 @@ namespace GroceryStoreManager.Models
                     sw.WriteLine(product.ToData());
                 }
             }
+        }
+    }
+    public class InvoiceItem
+    {
+        public Product Item { get; set; }
+        public Unit BuyUnit { get; set; }
+        public int Quantity { get; set; }
+        public InvoiceItem(Product item, Unit unit, int quantity)
+        {
+            Item = item;
+            BuyUnit = unit;
+            Quantity = quantity;
+        }
+        public int Total()
+        {
+            return BuyUnit.Price * Quantity;
+        }
+        public int Revenue()
+        {
+            return (BuyUnit.Price - BuyUnit.BasePrice) * Quantity;
+        }
+    }
+    public class Invoice
+    {
+        public List<InvoiceItem> ItemList { get; set; }
+        public DateTime Time { get; set; }
+        public int Total { get; set; }
+        public Invoice()
+        {
+            ItemList = new List<InvoiceItem>();
+            Time = DateTime.Now;
+            Total= 0;
+        }
+        public int Add(InvoiceItem item)
+        {
+            ItemList.Add(item);
+            Total += item.Total();
+            return item.Total();
+        }
+        public int Remove(InvoiceItem item)
+        {
+            ItemList.Remove(item);
+            Total -= item.Total();
+            return item.Total();
         }
     }
 }
