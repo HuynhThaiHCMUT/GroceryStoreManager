@@ -16,51 +16,10 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 	<Window.Styles>
-		<Style Selector="Grid#Header">
-			<Setter Property="Background" Value="CornflowerBlue"/>
-			<Setter Property="MinWidth" Value="600"/>
-		</Style>
-		<Style Selector="TextBox.SearchBar">
-			<Setter Property="FontSize" Value="20"/>
-			<Setter Property="Margin" Value="10"/>
-			<Setter Property="Watermark" Value="Tìm kiếm"/>
-		</Style>
-		<Style Selector="TextBlock#InvoiceHeader">
-			<Setter Property="FontSize" Value="20"/>
-			<Setter Property="FontWeight" Value="Bold"/>
-			<Setter Property="HorizontalAlignment" Value="Stretch"/>
-			<Setter Property="TextAlignment" Value="Center"/>
-			<Setter Property="VerticalAlignment" Value="Center"/>
-			<Setter Property="Padding" Value="0,20,0,20"/>
-			<Setter Property="Background" Value="Bisque"/>
-		</Style>
-		<Style Selector="RadioButton.HeaderButton">
-			<Setter Property="Background" Value="Aquamarine"/>
-			<Setter Property="Padding" Value="0,10,0,10"/>
-			<Setter Property="Margin" Value="20,0,20,0"/>
-			<Setter Property="CornerRadius" Value="10"/>
-			<Setter Property="HorizontalAlignment" Value="Stretch"/>
-		</Style>
-		<Style Selector="RadioButton.HeaderButton /template/ Ellipse">
-			<Setter Property="IsVisible" Value="False"/>
-		</Style>
-		<Style Selector="RadioButton.HeaderButton /template/ ContentPresenter">
-			<Setter Property="Padding" Value="-15,0,0,0"/>
-			<Setter Property="HorizontalAlignment" Value="Center"/>
-		</Style>
-		<Style Selector="RadioButton.HeaderButton /template/ Border:pointerover">
-			<Setter Property="Background" Value="Beige"/>
-		</Style>
-		<Style Selector="RadioButton.HeaderButton:checked">
-			<Setter Property="Background" Value="Beige"/>
-		</Style>
-		<Style Selector=".HeaderButton > TextBlock">
-			<Setter Property="FontSize" Value="20"/>
-			<Setter Property="FontWeight" Value="Bold"/>
-		</Style>
+		<StyleInclude Source="/Assets/Styles.axaml"/>
 	</Window.Styles>
 	
-	<StackPanel>
+	<Grid RowDefinitions="Auto,1*">
 		<Grid Name="Header" Height="60" ColumnDefinitions="1*,1*,1*">
 			<RadioButton Name="SalesButton" IsChecked="True" Classes="HeaderButton">
 				<TextBlock>Hoá đơn</TextBlock>
@@ -72,18 +31,22 @@
 				<TextBlock>Lịch sử</TextBlock>
 			</RadioButton>
 		</Grid>
-		<Grid Name="SalesPanel" IsVisible="{Binding	#SalesButton.IsChecked}" ColumnDefinitions="1*,1,1*">
+		<Grid Name="SalesPanel" Grid.Row="1" IsVisible="{Binding #SalesButton.IsChecked}" ColumnDefinitions="1*,1,1*">
 			<StackPanel>
 				<TextBox Name="SalesSearchBar" Classes="SearchBar"></TextBox>
 			</StackPanel>
-			<GridSplitter Grid.Column="1" Background="Black" ResizeDirection="Columns"/>
+			<GridSplitter Grid.Column="1" Background="Black" ResizeDirection="Columns" ZIndex="2"/>
 			<StackPanel Grid.Column="2">
 				<TextBlock Name="InvoiceHeader">
 					Hoá đơn
 				</TextBlock>
 			</StackPanel>
 		</Grid>
-	</StackPanel>
-
-
+		<StackPanel Name="InventoryPanel" Grid.Row="1" IsVisible="{Binding #InventoryButton.IsChecked}">
+			<Grid ColumnDefinitions="*,Auto">
+				<TextBox Name="InventorySearchBar" Classes="SearchBar"></TextBox>
+				<Button Name="AddButton" Grid.Column="1" Command="{Binding AddProductCommand}">Thêm sản phẩm</Button>
+			</Grid>
+		</StackPanel>
+	</Grid>
 </Window>

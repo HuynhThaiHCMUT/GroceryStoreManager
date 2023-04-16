@@ -1,0 +1,57 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="Grid#Header">
+        <Setter Property="Background" Value="#424874"/>
+        <Setter Property="MinWidth" Value="600"/>
+    </Style>
+	<Style Selector="TextBox.SearchBar">
+		<Setter Property="FontSize" Value="20"/>
+		<Setter Property="Margin" Value="10"/>
+		<Setter Property="Watermark" Value="Tìm kiếm"/>
+	</Style>
+    <Style Selector="TextBlock#InvoiceHeader">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="0,20,0,20"/>
+        <Setter Property="Background" Value="#DCD6F7"/>
+    </Style>
+    <Style Selector="RadioButton.HeaderButton">
+        <Setter Property="Background" Value="#F4EEFF"/>
+        <Setter Property="Padding" Value="0,10,0,10"/>
+        <Setter Property="Margin" Value="20,0,20,0"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+    <Style Selector="RadioButton.HeaderButton /template/ Ellipse">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="RadioButton.HeaderButton /template/ ContentPresenter">
+        <Setter Property="Padding" Value="-15,0,0,0"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="RadioButton.HeaderButton /template/ Border:pointerover">
+        <Setter Property="Background" Value="#A6B1E1"/>
+    </Style>
+    <Style Selector="RadioButton.HeaderButton:checked">
+        <Setter Property="Background" Value="#A6B1E1"/>
+    </Style>
+    <Style Selector=".HeaderButton > TextBlock">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+	<Style Selector="Button#AddButton">
+		<Setter Property="CornerRadius" Value="2"/>
+		<Setter Property="Margin" Value="10"/>
+		<Setter Property="FontSize" Value="20"/>
+		<Setter Property="Background" Value="#A6B1E1"/>
+	</Style>
+	<Style Selector="Button#AddButton:pointerover">
+		<Setter Property="Background" Value="#A6B1E7"/>
+	</Style>
+	<Style Selector="Button#AddButton:pressed">
+		<Setter Property="Background" Value="#424874"/>
+	</Style>
+</Styles>

@@ -13,7 +13,7 @@ namespace GroceryStoreManager.Views
         }
         void MainWindow_Closed(object sender, System.EventArgs e)
         {
-            ((MainWindowViewModel)this.DataContext).Inventory.Save();
+            ((MainWindowViewModel)DataContext).Inventory.Save();
         }
     }
 }
