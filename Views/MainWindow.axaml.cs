@@ -7,13 +7,16 @@ namespace GroceryStoreManager.Views
 {
     public partial class MainWindow : Window
     {
+        private readonly MainWindowViewModel vm;
         public MainWindow()
         {
             InitializeComponent();
+            vm = new MainWindowViewModel();
+            DataContext = vm;
         }
         void MainWindow_Closed(object sender, System.EventArgs e)
         {
-            ((MainWindowViewModel)DataContext).Inventory.Save();
+            vm.Inventory.Save();
         }
     }
 }

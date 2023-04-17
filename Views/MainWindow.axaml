@@ -45,7 +45,7 @@
 		<StackPanel Name="InventoryPanel" Grid.Row="1" IsVisible="{Binding #InventoryButton.IsChecked}">
 			<Grid ColumnDefinitions="*,Auto">
 				<TextBox Name="InventorySearchBar" Classes="SearchBar"></TextBox>
-				<Button Name="AddButton" Grid.Column="1" Command="{Binding AddProductCommand}">Thêm sản phẩm</Button>
+				<Button Name="AddButton" Grid.Column="1" Command="{Binding AddProductCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Thêm sản phẩm</Button>
 			</Grid>
 		</StackPanel>
 	</Grid>

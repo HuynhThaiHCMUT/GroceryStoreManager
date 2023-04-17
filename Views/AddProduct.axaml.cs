@@ -1,4 +1,6 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
+using GroceryStoreManager.ViewModels;
 
 namespace GroceryStoreManager.Views
 {
@@ -7,6 +9,7 @@ namespace GroceryStoreManager.Views
         public AddProduct()
         {
             InitializeComponent();
+            DataContext = new AddProductViewModel();
         }
     }
 }
