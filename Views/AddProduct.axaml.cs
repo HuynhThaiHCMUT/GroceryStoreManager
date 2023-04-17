@@ -11,5 +11,13 @@ namespace GroceryStoreManager.Views
             InitializeComponent();
             DataContext = new AddProductViewModel();
         }
+        public void OK(object sender, RoutedEventArgs e)
+        {
+
+        }
+        public void Cancel(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

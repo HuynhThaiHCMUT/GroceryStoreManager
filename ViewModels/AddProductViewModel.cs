@@ -16,17 +16,23 @@ namespace GroceryStoreManager.ViewModels
     {
         public string ProductId { get; set; }
         public string ProductName { get; set; }
+        public string ProductQuantity { get; set; }
         public List<Unit> Units { get; set; }
         public ICommand AddUnitCommand { get; }
         public AddProductViewModel()
         {
-            ProductId = "";
-            ProductName = "";
+            ProductId = string.Empty;
+            ProductName = string.Empty;
+            ProductQuantity = string.Empty;
             Units = new List<Unit>();
             AddUnitCommand = ReactiveCommand.Create<Window>(async (Window w) =>
             {
                 var inputForm = new AddUnit();
-                await inputForm.ShowDialog(w);
+                var result = await inputForm.ShowDialog<Unit>(w);
+                if (result != null)
+                {
+                    Units.Add(result);
+                }
             });
         }
     }

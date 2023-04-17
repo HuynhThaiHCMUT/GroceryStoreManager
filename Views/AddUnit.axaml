@@ -2,8 +2,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d"
+		WindowStartupLocation="CenterOwner"
+		MinWidth="400" MinHeight="300"
+		Width="400" Height="300"
         x:Class="GroceryStoreManager.Views.AddUnit"
-        Title="AddUnit">
-  Welcome to Avalonia!
+        Title="Thêm đơn vị">
+	<StackPanel Margin="20">
+		<TextBlock>Tên đơn vị</TextBlock>
+		<TextBox Text="{Binding Name}" />
+		<TextBlock>Giá</TextBlock>
+		<TextBox Text="{Binding	Price}"/>
+		<TextBlock>Giá gốc</TextBlock>
+		<TextBox Text="{Binding	BasePrice}"/>
+		<TextBlock>Trọng số</TextBlock>
+		<TextBox Text="{Binding	Weight}"/>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+			<Button Click="OK">OK</Button>
+			<Button Click="Cancel">Cancel</Button>
+		</StackPanel>
+	</StackPanel>
 </Window>
