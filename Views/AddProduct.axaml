@@ -23,7 +23,24 @@
 			</Button>
 			<TextBlock>Đơn vị</TextBlock>
 		</DockPanel>
-		<ListBox Items="{Binding Units}" Height="200"/>
+		<Grid ColumnDefinitions="2*,*,*,*" RowDefinitions="Auto,*">
+			<TextBlock Text="Tên đơn vị"/>
+			<TextBlock Text="Giá" Grid.Column="1" HorizontalAlignment="Center"/>
+			<TextBlock Text="Giá gốc" Grid.Column="2" HorizontalAlignment="Center"/>
+			<TextBlock Text="Trọng số" Grid.Column="3" HorizontalAlignment="Center"/>
+			<ListBox Items="{Binding Units}" Grid.Row="1" Grid.ColumnSpan="4" Height="200">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<Grid ColumnDefinitions="2*,*,*,*">
+							<TextBlock Text="{Binding Name}"/>
+							<TextBlock Text="{Binding Price}" Grid.Column="1" HorizontalAlignment="Center"/>
+							<TextBlock Text="{Binding BasePrice}" Grid.Column="2" HorizontalAlignment="Center"/>
+							<TextBlock Text="{Binding Weight}" Grid.Column="3" HorizontalAlignment="Center"/>
+						</Grid>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</Grid>
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 			<Button Click="OK">OK</Button>
 			<Button Click="Cancel">Cancel</Button>

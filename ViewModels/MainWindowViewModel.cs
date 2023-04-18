@@ -16,8 +16,12 @@ namespace GroceryStoreManager.ViewModels
             Inventory.Read();
             AddProductCommand = ReactiveCommand.Create<Window>(async (Window w) =>
             {
-                var inputForm = new AddProduct();
-                await inputForm.ShowDialog(w);
+                var inputForm = new AddProduct(Inventory);
+                var result = await inputForm.ShowDialog<Product>(w);
+                if (result != null)
+                {
+                    Inventory.Add(result);
+                }
             });
         }
     }

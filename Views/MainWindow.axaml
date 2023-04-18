@@ -8,7 +8,7 @@
 		WindowState="Maximized"
         Icon="/Assets/avalonia-logo.ico"
         Title="GroceryStoreManager"
-		Closed="MainWindow_Closed">
+		Closing="MainWindow_Closing">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,

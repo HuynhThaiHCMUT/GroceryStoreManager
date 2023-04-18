@@ -45,19 +45,9 @@ namespace GroceryStoreManager.Models
             Quantity = quantity;
             Units = new List<Unit>();
         }
-        //Return true if add successfully, false if unit already exist
-        public bool AddUnit(Unit unit)
+        public void AddUnit(Unit unit)
         {
-            int i = Units.IndexOf(unit);
-            if (i == -1)
-            {
-                Units.Add(unit);
-            }
-            else
-            {
-                return false;
-            }
-            return true;
+            Units.Add(unit);
         }
         public void EditUnit(int index, Unit unit)
         {
@@ -89,7 +79,6 @@ namespace GroceryStoreManager.Models
         public void Read()
         {
             string path = @"ProductData";
-            System.IO.Directory.CreateDirectory(@"C:\ShopData");
             if (!File.Exists(path))
             {
                 using StreamWriter sw = File.CreateText(path); ;
@@ -101,10 +90,10 @@ namespace GroceryStoreManager.Models
                 while ((s = sr.ReadLine()) != null)
                 {
                     string[] arr = s.Split(' ');
-                    Product product = new(int.Parse(arr[0]), arr[1].Replace('_', ' '), int.Parse(arr[2]));
-                    for (int i = 2; i < arr.Length; i += 3)
+                    Product product = new(Int64.Parse(arr[0]), arr[1].Replace('_', ' '), Int32.Parse(arr[2]));
+                    for (int i = 3; i < arr.Length; i += 4)
                     {
-                        product.AddUnit(new Unit(arr[i], int.Parse(arr[i + 1]), int.Parse(arr[i + 2]), int.Parse(arr[i + 3])));
+                        product.AddUnit(new Unit(arr[i], Int32.Parse(arr[i + 1]), Int32.Parse(arr[i + 2]), Int32.Parse(arr[i + 3])));
                     }
                     ProductList.Add(product.Id, product);
                 }
@@ -115,13 +104,21 @@ namespace GroceryStoreManager.Models
         {
             string path = @"ProductData";
             File.WriteAllText(path, "");
-            using (StreamWriter sw = new StreamWriter(path))
+            using (StreamWriter sw = new(path))
             {
                 foreach (Product product in ProductList.Values)
                 {
                     sw.WriteLine(product.ToData());
                 }
             }
+        }
+        public bool ContainId(long id)
+        {
+            return ProductList.ContainsKey(id);
+        }
+        public void Add(Product product)
+        {
+            ProductList.Add(product.Id, product);
         }
     }
     public class InvoiceItem

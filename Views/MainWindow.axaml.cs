@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using GroceryStoreManager.Models;
 using GroceryStoreManager.ViewModels;
+using System.ComponentModel;
 
 namespace GroceryStoreManager.Views
 {
@@ -14,7 +15,7 @@ namespace GroceryStoreManager.Views
             vm = new MainWindowViewModel();
             DataContext = vm;
         }
-        void MainWindow_Closed(object sender, System.EventArgs e)
+        public void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             vm.Inventory.Save();
         }

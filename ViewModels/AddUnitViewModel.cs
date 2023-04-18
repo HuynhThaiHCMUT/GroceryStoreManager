@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,15 +17,17 @@ namespace GroceryStoreManager.ViewModels
         public string Price { get; set; }
         public string BasePrice { get; set; }
         public string Weight { get; set; }
+        private readonly ObservableCollection<Unit> unitsRef;
         private int price;
         private int basePrice;
         private int weight;
-        public AddUnitViewModel()
+        public AddUnitViewModel(ObservableCollection<Unit> units)
         {
             Name = string.Empty;
             Price = string.Empty;
             BasePrice = string.Empty;
             Weight = string.Empty;
+            unitsRef = units;
         }
         public int Check()
         {
@@ -39,6 +42,10 @@ namespace GroceryStoreManager.ViewModels
             if (!Int32.TryParse(Weight, out weight))
             {
                 return 3;
+            }
+            if (unitsRef.Contains(Result()))
+            {
+                return 4;
             }
             return 0;
         }
