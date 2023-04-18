@@ -19,10 +19,11 @@ namespace GroceryStoreManager.ViewModels
         public string ProductName { get; set; }
         public string ProductQuantity { get; set; }
         public ObservableCollection<Unit> Units { get; set; }
-        public ICommand AddUnitCommand { get; }
-        public ICommand EditUnitCommand { get; }
-        public ICommand DeleteUnitCommand { get; }
+        public ICommand AddUnitCommand { get; set; }
+        public ICommand EditUnitCommand { get; set; }
+        public ICommand DeleteUnitCommand { get; set; }
         private readonly Inventory invRef;
+        private readonly long? exId;
         private long productId;
         private int productQuantity;
         private int selectedIndex;
@@ -30,6 +31,17 @@ namespace GroceryStoreManager.ViewModels
         { 
             get => selectedIndex;
             set => this.RaiseAndSetIfChanged(ref selectedIndex, value);
+        }
+        public AddProductViewModel(Inventory inv, long id)
+        {
+            invRef = inv;
+            selectedIndex = -1;
+            ProductId = id.ToString();
+            ProductName = inv.ProductList[id].Name;
+            ProductQuantity = inv.ProductList[id].Quantity.ToString();
+            Units = new ObservableCollection<Unit>(inv.ProductList[id].Units);
+            exId = id;
+            InitCommand();
         }
         public AddProductViewModel(Inventory inv)
         {
@@ -39,6 +51,10 @@ namespace GroceryStoreManager.ViewModels
             ProductName = string.Empty;
             ProductQuantity = string.Empty;
             Units = new ObservableCollection<Unit>();
+            InitCommand();
+        }
+        private void InitCommand()
+        {
             AddUnitCommand = ReactiveCommand.Create<Window>(async (Window w) =>
             {
                 var inputForm = new AddUnitView(Units);
@@ -77,13 +93,21 @@ namespace GroceryStoreManager.ViewModels
             {
                 return 1;
             }
-            if (invRef.ContainId(productId))
+            if (!Int32.TryParse(ProductQuantity, out productQuantity))
             {
                 return 2;
             }
-            if (!Int32.TryParse(ProductQuantity, out productQuantity))
+            if (Units.Count == 0)
             {
                 return 3;
+            }
+            if (invRef.ContainId(productId))
+            {
+                if (exId != null)
+                {
+                    if (exId == productId) return 0;
+                }
+                return 4;
             }
             return 0;
         }

@@ -42,16 +42,16 @@
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
-	<Style Selector="Button#AddButton">
+	<Style Selector="Button.OpButton">
 		<Setter Property="CornerRadius" Value="2"/>
 		<Setter Property="Margin" Value="10"/>
 		<Setter Property="FontSize" Value="20"/>
 		<Setter Property="Background" Value="#A6B1E1"/>
 	</Style>
-	<Style Selector="Button#AddButton:pointerover">
+	<Style Selector="Button.OpButton:pointerover">
 		<Setter Property="Background" Value="#A6B1E7"/>
 	</Style>
-	<Style Selector="Button#AddButton:pressed">
+	<Style Selector="Button.OpButton:pressed">
 		<Setter Property="Background" Value="#424874"/>
 	</Style>
 </Styles>

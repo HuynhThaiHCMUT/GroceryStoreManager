@@ -3,10 +3,12 @@ using GroceryStoreManager.Models;
 using GroceryStoreManager.Views;
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -17,12 +19,20 @@ namespace GroceryStoreManager.ViewModels
     {
         public Inventory Inventory { get; set; }
         public ICommand AddProductCommand { get; }
+        public ICommand EditProductCommand { get; }
+        public ICommand DeleteProductCommand { get; }
         public ObservableCollection<Product> Query { get; set; }
         private string searchText;
         public string SearchText
         {
             get => searchText;
             set => this.RaiseAndSetIfChanged(ref searchText, value);
+        }
+        private object selectedItem;
+        public object SelectedItem
+        {
+            get => selectedItem;
+            set => this.RaiseAndSetIfChanged(ref selectedItem, value);
         }
         public MainWindowViewModel()
         {
@@ -35,8 +45,33 @@ namespace GroceryStoreManager.ViewModels
                 if (result != null)
                 {
                     Inventory.Add(result);
+                    Search(SearchText);
                 }
             });
+            var opEnabled = this.WhenAnyValue(
+                x => x.SelectedItem,
+                (Func<object, bool>) (x => x != null));
+            EditProductCommand = ReactiveCommand.Create<Window>(async (Window w) =>
+            {
+                Product p = SelectedItem as Product;
+                var inputForm = new AddProductView(Inventory, p.Id);
+                var result = await inputForm.ShowDialog<Product>(w);
+                if (result != null)
+                {
+                    Inventory.ProductList.Remove(p.Id);
+                    Inventory.ProductList.Add(result.Id, result);
+                    Search(SearchText);
+                }
+            }, opEnabled);
+            DeleteProductCommand = ReactiveCommand.Create<Window>(async (Window w) =>
+            {
+                MessageBox.MessageBoxResult result = await MessageBox.Show(w, "Xác nhận xoá sản phẩm?", "", MessageBox.MessageBoxButtons.YesNo);
+                if (result == MessageBox.MessageBoxResult.Yes)
+                {
+                    Inventory.ProductList.Remove((SelectedItem as Product).Id);
+                    Search(SearchText);
+                }
+            }, opEnabled);
             Query = new ObservableCollection<Product>(from p in Inventory.ProductList select p.Value);
             this.WhenAnyValue(x => x.SearchText).Throttle(TimeSpan.FromMilliseconds(300)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(Search);
         }

@@ -10,6 +10,12 @@ namespace GroceryStoreManager.Views
     public partial class AddProductView : Window
     {
         private readonly AddProductViewModel vm;
+        public AddProductView(Inventory inv, long id)
+        {
+            InitializeComponent();
+            vm = new AddProductViewModel(inv, id);
+            DataContext = vm;
+        }
         public AddProductView(Inventory inv)
         {
             InitializeComponent();
@@ -29,10 +35,13 @@ namespace GroceryStoreManager.Views
                     await MessageBox.Show(this, "ID sản phẩm không hợp lệ", "Lỗi", MessageBox.MessageBoxButtons.Ok);
                     break;
                 case 2:
-                    await MessageBox.Show(this, "ID đã tồn tại", "Lỗi", MessageBox.MessageBoxButtons.Ok);
+                    await MessageBox.Show(this, "Số lượng không hợp lệ", "Lỗi", MessageBox.MessageBoxButtons.Ok);
                     break;
                 case 3:
-                    await MessageBox.Show(this, "Số lượng không hợp lệ", "Lỗi", MessageBox.MessageBoxButtons.Ok);
+                    await MessageBox.Show(this, "Chưa có đơn vị", "Lỗi", MessageBox.MessageBoxButtons.Ok);
+                    break;
+                case 4:
+                    await MessageBox.Show(this, "ID đã tồn tại", "Lỗi", MessageBox.MessageBoxButtons.Ok);
                     break;
                 case 0:
                     Close(vm.Result());
