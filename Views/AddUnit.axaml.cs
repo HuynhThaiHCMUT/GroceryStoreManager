@@ -11,6 +11,12 @@ namespace GroceryStoreManager.Views
     public partial class AddUnit : Window
     {
         private readonly AddUnitViewModel vm;
+        public AddUnit(ObservableCollection<Unit> units, int index)
+        {
+            InitializeComponent();
+            vm = new AddUnitViewModel(units, index);
+            DataContext = vm;
+        }
         public AddUnit(ObservableCollection<Unit> units)
         {
             InitializeComponent();

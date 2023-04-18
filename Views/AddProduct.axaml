@@ -16,10 +16,20 @@
 		<TextBlock>Số lượng trong kho</TextBlock>
 		<TextBox Text="{Binding	ProductQuantity}"/>
 		<DockPanel>
-			<Button Command="{Binding AddUnitCommand}" 
+			<Button Command="{Binding DeleteUnitCommand}" 
 					CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
 					DockPanel.Dock="Right">
-				Thêm đơn vị
+				Xoá
+			</Button>
+			<Button Command="{Binding EditUnitCommand}"
+					CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+					DockPanel.Dock="Right">
+				Sửa
+			</Button>
+			<Button Command="{Binding AddUnitCommand}"
+					CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+					DockPanel.Dock="Right">
+				Thêm
 			</Button>
 			<TextBlock>Đơn vị</TextBlock>
 		</DockPanel>
@@ -28,7 +38,7 @@
 			<TextBlock Text="Giá" Grid.Column="1" HorizontalAlignment="Center"/>
 			<TextBlock Text="Giá gốc" Grid.Column="2" HorizontalAlignment="Center"/>
 			<TextBlock Text="Trọng số" Grid.Column="3" HorizontalAlignment="Center"/>
-			<ListBox Items="{Binding Units}" Grid.Row="1" Grid.ColumnSpan="4" Height="200">
+			<ListBox Items="{Binding Units}" SelectedIndex="{Binding SelectedIndex}" Grid.Row="1" Grid.ColumnSpan="4" Height="200">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
 						<Grid ColumnDefinitions="2*,*,*,*">

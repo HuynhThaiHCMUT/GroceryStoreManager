@@ -21,6 +21,16 @@ namespace GroceryStoreManager.ViewModels
         private int price;
         private int basePrice;
         private int weight;
+        private string? exName;
+        public AddUnitViewModel(ObservableCollection<Unit> units, int index)
+        {
+            Name = units[index].Name;
+            Price = units[index].Price.ToString();
+            BasePrice = units[index].BasePrice.ToString();
+            Weight = units[index].Weight.ToString();
+            unitsRef = units;
+            exName = Name;
+        }
         public AddUnitViewModel(ObservableCollection<Unit> units)
         {
             Name = string.Empty;
@@ -45,6 +55,10 @@ namespace GroceryStoreManager.ViewModels
             }
             if (unitsRef.Contains(Result()))
             {
+                if (exName != null)
+                {
+                    if (exName == Name) return 0;
+                }
                 return 4;
             }
             return 0;

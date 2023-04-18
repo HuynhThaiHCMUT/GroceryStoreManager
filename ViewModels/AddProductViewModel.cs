@@ -20,12 +20,21 @@ namespace GroceryStoreManager.ViewModels
         public string ProductQuantity { get; set; }
         public ObservableCollection<Unit> Units { get; set; }
         public ICommand AddUnitCommand { get; }
+        public ICommand EditUnitCommand { get; }
+        public ICommand DeleteUnitCommand { get; }
         private readonly Inventory invRef;
         private long productId;
         private int productQuantity;
+        private int selectedIndex;
+        public int SelectedIndex 
+        { 
+            get => selectedIndex;
+            set => this.RaiseAndSetIfChanged(ref selectedIndex, value);
+        }
         public AddProductViewModel(Inventory inv)
         {
             invRef = inv;
+            selectedIndex = -1;
             ProductId = string.Empty;
             ProductName = string.Empty;
             ProductQuantity = string.Empty;
@@ -39,6 +48,28 @@ namespace GroceryStoreManager.ViewModels
                     Units.Add(result);
                 }
             });
+            var opEnabled = this.WhenAnyValue(
+                x => x.SelectedIndex,
+                x => x != -1);
+            EditUnitCommand = ReactiveCommand.Create<Window>(async (Window w) =>
+            {
+                int s = SelectedIndex;
+                var inputForm = new AddUnit(Units, SelectedIndex);
+                var result = await inputForm.ShowDialog<Unit>(w);
+                if (result != null)
+                {
+                    Units.RemoveAt(s);
+                    Units.Insert(s, result);
+                }
+            }, opEnabled);
+            DeleteUnitCommand = ReactiveCommand.Create<Window>(async (Window w) =>
+            {
+                MessageBox.MessageBoxResult result = await MessageBox.Show(w, "Xác nhận xoá đơn vị?", "", MessageBox.MessageBoxButtons.YesNo);
+                if (result == MessageBox.MessageBoxResult.Yes)
+                {
+                    Units.RemoveAt(SelectedIndex);
+                }
+            }, opEnabled);
         }
         public int Check()
         {
