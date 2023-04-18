@@ -41,7 +41,7 @@ namespace GroceryStoreManager.ViewModels
             Units = new ObservableCollection<Unit>();
             AddUnitCommand = ReactiveCommand.Create<Window>(async (Window w) =>
             {
-                var inputForm = new AddUnit(Units);
+                var inputForm = new AddUnitView(Units);
                 var result = await inputForm.ShowDialog<Unit>(w);
                 if (result != null)
                 {
@@ -54,7 +54,7 @@ namespace GroceryStoreManager.ViewModels
             EditUnitCommand = ReactiveCommand.Create<Window>(async (Window w) =>
             {
                 int s = SelectedIndex;
-                var inputForm = new AddUnit(Units, SelectedIndex);
+                var inputForm = new AddUnitView(Units, SelectedIndex);
                 var result = await inputForm.ShowDialog<Unit>(w);
                 if (result != null)
                 {

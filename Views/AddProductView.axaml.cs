@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace GroceryStoreManager.Views
 {
-    public partial class AddProduct : Window
+    public partial class AddProductView : Window
     {
         private readonly AddProductViewModel vm;
-        public AddProduct(Inventory inv)
+        public AddProductView(Inventory inv)
         {
             InitializeComponent();
             vm = new AddProductViewModel(inv);
             DataContext = vm;
         }
-        public AddProduct()
+        public AddProductView()
         {
             InitializeComponent();
         }

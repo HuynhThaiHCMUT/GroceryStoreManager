@@ -31,4 +31,13 @@
       <SubType>Designer</SubType>
     </AvaloniaXaml>
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\AddProductView.axaml.cs">
+      <DependentUpon>AddProductView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\AddUnitView.axaml.cs">
+      <DependentUpon>AddUnitView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

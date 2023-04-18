@@ -33,7 +33,39 @@
 		</Grid>
 		<Grid Name="SalesPanel" Grid.Row="1" IsVisible="{Binding #SalesButton.IsChecked}" ColumnDefinitions="1*,1,1*">
 			<StackPanel>
-				<TextBox Name="SalesSearchBar" Classes="SearchBar"></TextBox>
+				<TextBox Text="{Binding	SearchText}" Classes="SearchBar"></TextBox>
+				<Grid ColumnDefinitions="80,*,100,100,100">
+					<TextBlock Text="ID"/>
+					<TextBlock Text="Tên sản phẩm" Grid.Column="1"/>
+					<TextBlock Text="Số lượng" Grid.Column="2"/>
+					<TextBlock Text="Tên đơn vị" Grid.Column="3"/>
+					<TextBlock Text="Giá" Grid.Column="4"/>
+				</Grid>
+				<ListBox Items="{Binding Query}" AutoScrollToSelectedItem="False">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<Grid ColumnDefinitions="80,*,100,100,100">
+								<TextBlock Text="{Binding Id}"/>
+								<TextBlock Text="{Binding Name}" Grid.Column="1"/>
+								<TextBlock Text="{Binding Quantity}" Grid.Column="2"/>
+								<ItemsControl Grid.Column="3" Items="{Binding Units}">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Name}"/>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+								<ItemsControl Grid.Column="4" Items="{Binding Units}">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Price}"/>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+							</Grid>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
 			</StackPanel>
 			<GridSplitter Grid.Column="1" Background="Black" ResizeDirection="Columns" ZIndex="2"/>
 			<StackPanel Grid.Column="2">
@@ -44,13 +76,61 @@
 		</Grid>
 		<StackPanel Name="InventoryPanel" Grid.Row="1" IsVisible="{Binding #InventoryButton.IsChecked}">
 			<Grid ColumnDefinitions="*,Auto">
-				<TextBox Name="InventorySearchBar" Classes="SearchBar"></TextBox>
+				<TextBox Text="{Binding	SearchText}" Classes="SearchBar"></TextBox>
 				<Button Name="AddButton" Grid.Column="1"
 						Command="{Binding AddProductCommand}"
 						CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
 					Thêm sản phẩm
 				</Button>
 			</Grid>
+			<Grid ColumnDefinitions="80,*,100,100,100,100,100">
+				<TextBlock Text="ID"/>
+				<TextBlock Text="Tên sản phẩm" Grid.Column="1"/>
+				<TextBlock Text="Số lượng" Grid.Column="2"/>
+				<TextBlock Text="Tên đơn vị" Grid.Column="3"/>
+				<TextBlock Text="Giá" Grid.Column="4"/>
+				<TextBlock Text="Giá gốc" Grid.Column="5"/>
+				<TextBlock Text="Trọng số" Grid.Column="6"/>
+			</Grid>
+			<ListBox Items="{Binding Query}" AutoScrollToSelectedItem="False">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<Grid ColumnDefinitions="80,*,100,100,100,100,100">
+							<TextBlock Text="{Binding Id}"/>
+							<TextBlock Text="{Binding Name}" Grid.Column="1"/>
+							<TextBlock Text="{Binding Quantity}" Grid.Column="2"/>
+							<ItemsControl Grid.Column="3" Items="{Binding Units}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Name}"/>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+							<ItemsControl Grid.Column="4" Items="{Binding Units}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Price}"/>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+							<ItemsControl Grid.Column="5" Items="{Binding Units}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding BasePrice}"/>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+							<ItemsControl Grid.Column="6" Items="{Binding Units}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding Weight}"/>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</Grid>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
 		</StackPanel>
 	</Grid>
 </Window>
