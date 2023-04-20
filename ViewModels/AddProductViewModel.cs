@@ -8,7 +8,6 @@ using System.Windows.Input;
 using Avalonia.Controls;
 using GroceryStoreManager.Models;
 using GroceryStoreManager.Views;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReactiveUI;
 
 namespace GroceryStoreManager.ViewModels
