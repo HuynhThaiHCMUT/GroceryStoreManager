@@ -3,9 +3,9 @@
         xmlns:vm="using:GroceryStoreManager.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="400"
         x:Class="GroceryStoreManager.Views.MainWindow"
-		WindowState="Maximized"
+		WindowState="Maximized" MinWidth="600"
         Icon="/Assets/avalonia-logo.ico"
         Title="GroceryStoreManager"
 		Closing="MainWindow_Closing">
@@ -20,124 +20,40 @@
 	</Window.Styles>
 	
 	<Grid RowDefinitions="Auto,1*">
+		<!-- Header button -->
 		<Grid Name="Header" Height="60" ColumnDefinitions="1*,1*,1*">
-			<RadioButton Name="SalesButton" IsChecked="True" Classes="HeaderButton">
-				<TextBlock>Hoá đơn</TextBlock>
-			</RadioButton>
-			<RadioButton Name="InventoryButton" Classes="HeaderButton" Grid.Column="1">
+			<RadioButton Name="InventoryButton" IsChecked="True" Classes="HeaderButton">
 				<TextBlock>Kho hàng</TextBlock>
+			</RadioButton>
+			<RadioButton Name="SalesButton" Classes="HeaderButton" Grid.Column="1">
+				<TextBlock>Hoá đơn</TextBlock>
 			</RadioButton>
 			<RadioButton Name="HistoryButton" Classes="HeaderButton" Grid.Column="2">
 				<TextBlock>Lịch sử</TextBlock>
 			</RadioButton>
 		</Grid>
-		<Grid Name="SalesPanel" Grid.Row="1" IsVisible="{Binding #SalesButton.IsChecked}" ColumnDefinitions="1*,1,1*">
-			<StackPanel>
-				<TextBox Text="{Binding	SearchText}" Classes="SearchBar"></TextBox>
-				<Grid Classes="ItemGrid" ColumnDefinitions="80,*,100,100,100">
-					
-					<TextBlock Text="ID"/>
-					<TextBlock Text="Tên sản phẩm" Grid.Column="1"/>
-					<TextBlock Text="Số lượng" Grid.Column="2"/>
-					<TextBlock Text="Tên đơn vị" Grid.Column="3"/>
-					<TextBlock Text="Giá" Grid.Column="4"/>
-				</Grid>
-				<ListBox Items="{Binding Query}" SelectedItem="{Binding	SelectedItem}" AutoScrollToSelectedItem="False">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<ListBoxItem DoubleTapped="Item_DoubleTapped">
-								<Grid Classes="ItemGrid" ColumnDefinitions="80,*,100,100,100">
-									<TextBlock Text="{Binding Id}"/>
-									<TextBlock Text="{Binding Name}" Grid.Column="1"/>
-									<TextBlock Text="{Binding Quantity}" Grid.Column="2"/>
-									<ItemsControl Grid.Column="3" Items="{Binding Units}">
-										<ItemsControl.ItemTemplate>
-											<DataTemplate>
-												<TextBlock Text="{Binding Name}"/>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-									<ItemsControl Grid.Column="4" Items="{Binding Units}">
-										<ItemsControl.ItemTemplate>
-											<DataTemplate>
-												<TextBlock Text="{Binding Price}"/>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-								</Grid>
-							</ListBoxItem>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</StackPanel>
-			<GridSplitter Grid.Column="1" Background="Black" ResizeDirection="Columns" ZIndex="5"/>
-			<DockPanel Grid.Column="2">
-				<DockPanel DockPanel.Dock="Bottom" Name="BottomBar">
-					<Button DockPanel.Dock="Right" 
-							Classes="OpButton"
-							Command="{Binding FinishInvoiceCommand}" 
-							CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-						Thanh toán
-					</Button>
-					<Button DockPanel.Dock="Right"
-							Classes="OpButton"
-							Command="{Binding EditInvoiceCommand}"
-							CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-						Sửa
-					</Button>
-					<Button DockPanel.Dock="Right"
-							Classes="OpButton"
-							Command="{Binding DeleteInvoiceCommand}"
-							CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-						Xoá
-					</Button>
-					<TextBlock Text="Tổng:"/>
-					<TextBlock Text="{Binding SumTotal}"/>
-				</DockPanel>
-				<TextBlock Name="InvoiceHeader" DockPanel.Dock="Top">
-					Hoá đơn
-				</TextBlock>
-				<Grid Classes="ItemGrid" Background="White" ColumnDefinitions="*,100,100,100,100" DockPanel.Dock="Top">
-					<TextBlock Text="Tên sản phẩm"/>
-					<TextBlock Text="Số lượng" Grid.Column="1"/>
-					<TextBlock Text="Tên đơn vị" Grid.Column="2"/>
-					<TextBlock Text="Giá" Grid.Column="3"/>
-					<TextBlock Text="Tổng" Grid.Column="4"/>
-				</Grid>
-				<ListBox Items="{Binding Invoice}" SelectedIndex="{Binding SelectedInvoiceIndex}" DockPanel.Dock="Top">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<Grid Classes="ItemGrid" ColumnDefinitions="*,100,100,100,100">
-								<TextBlock Text="{Binding Item.Name}"/>
-								<TextBlock Text="{Binding Quantity}" Grid.Column="1"/>
-								<TextBlock Text="{Binding BuyUnit.Name}" Grid.Column="2"/>
-								<TextBlock Text="{Binding BuyUnit.Price}" Grid.Column="3"/>
-								<TextBlock Text="{Binding Total}" Grid.Column="4"/>
-							</Grid>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</DockPanel>
-		</Grid>
+		<!-- Inventory panel -->
 		<StackPanel Name="InventoryPanel" Grid.Row="1" IsVisible="{Binding #InventoryButton.IsChecked}">
-			<Grid ColumnDefinitions="*,Auto, Auto, Auto">
-				<TextBox Text="{Binding	SearchText}" Classes="SearchBar"></TextBox>
-				<Button Classes="OpButton" Grid.Column="1"
-						Command="{Binding AddProductCommand}"
-						CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-					Thêm sản phẩm
-				</Button>
-				<Button Classes="OpButton" Grid.Column="2"
-						Command="{Binding EditProductCommand}"
-						CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-					Sửa
-				</Button>
-				<Button Classes="OpButton" Grid.Column="3"
+			<!-- Header stuff -->
+			<DockPanel>
+				<Button Classes="OpButton" DockPanel.Dock="Right"
 						Command="{Binding DeleteProductCommand}"
 						CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
 					Xoá
 				</Button>
-			</Grid>
+				<Button Classes="OpButton" DockPanel.Dock="Right"
+						Command="{Binding EditProductCommand}"
+						CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+					Sửa
+				</Button>
+				<Button Classes="OpButton" DockPanel.Dock="Right"
+						Command="{Binding AddProductCommand}"
+						CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+					Thêm sản phẩm
+				</Button>
+				<TextBox Text="{Binding	SearchText}" Classes="SearchBar"></TextBox>
+			</DockPanel>
+			<!-- Item list -->
 			<Grid Classes="ItemGrid" ColumnDefinitions="80,*,100,100,100,100,100">
 				<TextBlock Text="ID"/>
 				<TextBlock Text="Tên sản phẩm" Grid.Column="1"/>
@@ -187,5 +103,95 @@
 				</ListBox.ItemTemplate>
 			</ListBox>
 		</StackPanel>
+		<!-- Sales panel -->
+		<Grid Name="SalesPanel" Grid.Row="1" IsVisible="{Binding #SalesButton.IsChecked}" ColumnDefinitions="1*,1,1*">
+			<!-- Product list -->
+			<StackPanel>
+				<TextBox Text="{Binding	SearchText}" Classes="SearchBar"></TextBox>
+				<Grid Classes="ItemGrid" ColumnDefinitions="80,*,100,100,100">
+					<TextBlock Text="ID"/>
+					<TextBlock Text="Tên sản phẩm" Grid.Column="1"/>
+					<TextBlock Text="Số lượng" Grid.Column="2"/>
+					<TextBlock Text="Tên đơn vị" Grid.Column="3"/>
+					<TextBlock Text="Giá" Grid.Column="4"/>
+				</Grid>
+				<ListBox Items="{Binding Query}" SelectedItem="{Binding	SelectedItem}" AutoScrollToSelectedItem="False">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<ListBoxItem DoubleTapped="Item_DoubleTapped">
+								<Grid Classes="ItemGrid" ColumnDefinitions="80,*,100,100,100">
+									<TextBlock Text="{Binding Id}"/>
+									<TextBlock Text="{Binding Name}" Grid.Column="1"/>
+									<TextBlock Text="{Binding Quantity}" Grid.Column="2"/>
+									<ItemsControl Grid.Column="3" Items="{Binding Units}">
+										<ItemsControl.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Name}"/>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+									<ItemsControl Grid.Column="4" Items="{Binding Units}">
+										<ItemsControl.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Price}"/>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+								</Grid>
+							</ListBoxItem>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</StackPanel>
+			<GridSplitter Grid.Column="1" Background="Black" ResizeDirection="Columns" ZIndex="5"/>
+			<!-- Invoice list -->
+			<DockPanel Grid.Column="2" Background="White">
+				<DockPanel DockPanel.Dock="Bottom" Name="BottomBar">
+					<Button DockPanel.Dock="Right"
+							Classes="OpButton"
+							Command="{Binding FinishInvoiceCommand}"
+							CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+						Thanh toán
+					</Button>
+					<Button DockPanel.Dock="Right"
+							Classes="OpButton"
+							Command="{Binding EditInvoiceCommand}"
+							CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+						Sửa
+					</Button>
+					<Button DockPanel.Dock="Right"
+							Classes="OpButton"
+							Command="{Binding DeleteInvoiceCommand}"
+							CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+						Xoá
+					</Button>
+					<TextBlock Text="Tổng:"/>
+					<TextBlock Text="{Binding SumTotal}"/>
+				</DockPanel>
+				<TextBlock Name="InvoiceHeader" DockPanel.Dock="Top">
+					Hoá đơn
+				</TextBlock>
+				<Grid Classes="ItemGrid" ColumnDefinitions="*,100,100,100,100" DockPanel.Dock="Top">
+					<TextBlock Text="Tên sản phẩm"/>
+					<TextBlock Text="Số lượng" Grid.Column="1"/>
+					<TextBlock Text="Tên đơn vị" Grid.Column="2"/>
+					<TextBlock Text="Giá" Grid.Column="3"/>
+					<TextBlock Text="Tổng" Grid.Column="4"/>
+				</Grid>
+				<ListBox Items="{Binding Invoice}" SelectedIndex="{Binding SelectedInvoiceIndex}" DockPanel.Dock="Top">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<Grid Classes="ItemGrid" ColumnDefinitions="*,100,100,100,100">
+								<TextBlock Text="{Binding Item.Name}"/>
+								<TextBlock Text="{Binding Quantity}" Grid.Column="1"/>
+								<TextBlock Text="{Binding BuyUnit.Name}" Grid.Column="2"/>
+								<TextBlock Text="{Binding BuyUnit.Price}" Grid.Column="3"/>
+								<TextBlock Text="{Binding Total}" Grid.Column="4"/>
+							</Grid>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</DockPanel>
+		</Grid>
 	</Grid>
 </Window>

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Controls;
 using GroceryStoreManager.Models;
@@ -100,7 +96,7 @@ namespace GroceryStoreManager.ViewModels
             {
                 return 3;
             }
-            if (invRef.ContainId(productId))
+            if (invRef.ProductList.ContainsKey(productId))
             {
                 if (exId != null)
                 {
@@ -112,12 +108,12 @@ namespace GroceryStoreManager.ViewModels
         }
         public Product Result()
         {
-            Product re = new(productId, ProductName, productQuantity);
+            Product result = new(productId, ProductName, productQuantity);
             foreach (Unit unit in Units)
             {
-                re.AddUnit(unit);
+                result.Units.Add(unit);
             }
-            return re;
+            return result;
         }
     }
 }

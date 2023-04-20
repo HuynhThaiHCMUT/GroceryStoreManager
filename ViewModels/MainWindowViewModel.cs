@@ -3,12 +3,9 @@ using GroceryStoreManager.Models;
 using GroceryStoreManager.Views;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -18,14 +15,14 @@ namespace GroceryStoreManager.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         public Inventory Inventory { get; set; }
+        public ObservableCollection<Product> Query { get; set; }
+        public ObservableCollection<InvoiceItem> Invoice { get; set; }
         public ICommand AddProductCommand { get; }
         public ICommand EditProductCommand { get; }
         public ICommand DeleteProductCommand { get; }
         public ICommand FinishInvoiceCommand { get; }
         public ICommand EditInvoiceCommand { get; }
         public ICommand DeleteInvoiceCommand { get; }
-        public ObservableCollection<Product> Query { get; set; }
-        public ObservableCollection<InvoiceItem> Invoice { get; set; }
         private int sumTotal;
         public int SumTotal
         {
@@ -59,6 +56,7 @@ namespace GroceryStoreManager.ViewModels
             SumTotal = 0;
             Query = new ObservableCollection<Product>(from p in Inventory.ProductList select p.Value);
             Invoice = new ObservableCollection<InvoiceItem>();
+            //Subscribe search text change event (throttle for 300ms) to search method
             this.WhenAnyValue(x => x.SearchText).Throttle(TimeSpan.FromMilliseconds(300)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(Search);
             AddProductCommand = ReactiveCommand.Create<Window>(async (Window w) =>
             {
@@ -66,7 +64,7 @@ namespace GroceryStoreManager.ViewModels
                 var result = await inputForm.ShowDialog<Product>(w);
                 if (result != null)
                 {
-                    Inventory.Add(result);
+                    Inventory.ProductList.Add(result.Id, result);
                     Search(SearchText);
                 }
             });
@@ -95,11 +93,20 @@ namespace GroceryStoreManager.ViewModels
                     Search(SearchText);
                 }
             }, opEnabled);
-            FinishInvoiceCommand = ReactiveCommand.Create<Window>(async (Window w) =>
+            FinishInvoiceCommand = ReactiveCommand.Create<Window>((Window w) =>
             {
+                foreach (InvoiceItem i in Invoice)
+                {
+                    if (Inventory.ProductList.ContainsKey(i.Item.Id))
+                    {
+                        Inventory.ProductList[i.Item.Id].Quantity -= i.Quantity;
+                    }
+                }
                 Invoice.Clear();
                 SumTotal = 0;
+                Search(SearchText);
             });
+            //Enable Invoice operation when selected index is valid
             var invoiceOpEnabled = this.WhenAnyValue(
                 x => x.SelectedInvoiceIndex,
                 x => x != -1);

@@ -49,18 +49,6 @@ namespace GroceryStoreManager.Models
             Quantity = quantity;
             Units = new List<Unit>();
         }
-        public void AddUnit(Unit unit)
-        {
-            Units.Add(unit);
-        }
-        public void EditUnit(int index, Unit unit)
-        {
-            Units[index] = unit;
-        }
-        public void RemoveUnit(int index)
-        {
-            Units.RemoveAt(index);
-        }
         //Convert to saved text form
         public string ToData()
         {
@@ -97,10 +85,11 @@ namespace GroceryStoreManager.Models
                     Product product = new(Int64.Parse(arr[0]), arr[1].Replace('_', ' '), Int32.Parse(arr[2]));
                     for (int i = 3; i < arr.Length; i += 4)
                     {
-                        product.AddUnit(new Unit(arr[i], Int32.Parse(arr[i + 1]), Int32.Parse(arr[i + 2]), Int32.Parse(arr[i + 3])));
+                        product.Units.Add(new Unit(arr[i].Replace('_', ' '), Int32.Parse(arr[i + 1]), Int32.Parse(arr[i + 2]), Int32.Parse(arr[i + 3])));
                     }
                     ProductList.Add(product.Id, product);
                 }
+                
             }
         }
         //Save current data to text file
@@ -115,14 +104,6 @@ namespace GroceryStoreManager.Models
                     sw.WriteLine(product.ToData());
                 }
             }
-        }
-        public bool ContainId(long id)
-        {
-            return ProductList.ContainsKey(id);
-        }
-        public void Add(Product product)
-        {
-            ProductList.Add(product.Id, product);
         }
     }
     public class InvoiceItem

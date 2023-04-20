@@ -6,7 +6,7 @@
         x:Class="GroceryStoreManager.Views.AddProductView"
 		WindowStartupLocation="CenterOwner"
 		SizeToContent="Height"
-		Width="600"  CanResize="False"
+		Width="450"  CanResize="False"
         Title="Thêm sản phẩm">
 	<Window.Styles>
 		<StyleInclude Source="/Assets/DialogStyles.axaml"/>
@@ -37,16 +37,18 @@
 			</Button>
 			<TextBlock>Đơn vị</TextBlock>
 		</DockPanel>
-		<Grid Classes="ItemGrid" ColumnDefinitions="2*,*,*,*">
-			<TextBlock Text="Tên đơn vị"/>
-			<TextBlock Text="Giá" Grid.Column="1"/>
-			<TextBlock Text="Giá gốc" Grid.Column="2"/>
-			<TextBlock Text="Trọng số" Grid.Column="3"/>
-		</Grid>
+		<Border BorderThickness="1,1,1,0" Margin="1,1,1,0" CornerRadius="10,10,0,0" BorderBrush="LightGray">
+			<Grid Classes="ItemGrid" ColumnDefinitions="3*,2*,2*,2*">
+				<TextBlock Text="Tên đơn vị"/>
+				<TextBlock Text="Giá" Grid.Column="1"/>
+				<TextBlock Text="Giá gốc" Grid.Column="2"/>
+				<TextBlock Text="Trọng số" Grid.Column="3"/>
+			</Grid>
+		</Border>
 		<ListBox Items="{Binding Units}" SelectedIndex="{Binding SelectedIndex}" Grid.Row="1" Grid.ColumnSpan="4" Height="200">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
-					<Grid Classes="ItemGrid" ColumnDefinitions="2*,*,*,*">
+					<Grid Classes="ItemGrid" ColumnDefinitions="3*,2*,2*,2*">
 						<TextBlock Text="{Binding Name}"/>
 						<TextBlock Text="{Binding Price}" Grid.Column="1"/>
 						<TextBlock Text="{Binding BasePrice}" Grid.Column="2"/>

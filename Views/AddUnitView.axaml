@@ -6,7 +6,7 @@
 		x:Class="GroceryStoreManager.Views.AddUnitView"
 		WindowStartupLocation="CenterOwner"
 		SizeToContent="Height"
-		Width="400" CanResize="False"
+		Width="300" CanResize="False"
         Title="Thêm đơn vị">
 	<Window.Styles>
 		<StyleInclude Source="/Assets/DialogStyles.axaml"/>
