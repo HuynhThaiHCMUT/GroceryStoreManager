@@ -8,7 +8,11 @@
 		SizeToContent="Height"
 		Width="340" CanResize="False"
         Title="Thêm sản phẩm vào hoá đơn">
-	<StackPanel Margin="20">
+	<Window.Styles>
+		<StyleInclude Source="/Assets/DialogStyles.axaml"/>
+	</Window.Styles>
+	
+	<StackPanel>
 		<TextBlock Text="{Binding Product.Name}" TextWrapping="WrapWithOverflow"/>
 		<TextBlock>Số lượng</TextBlock>
 		<TextBox Text="{Binding	Quantity}"/>
