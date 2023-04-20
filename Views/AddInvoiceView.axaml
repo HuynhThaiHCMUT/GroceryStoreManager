@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="GroceryStoreManager.Views.AddInvoiceView"
+		WindowStartupLocation="CenterOwner"
+		SizeToContent="Height"
+		Width="340" CanResize="False"
+        Title="Thêm sản phẩm vào hoá đơn">
+	<StackPanel Margin="20">
+		<TextBlock Text="{Binding Product.Name}" TextWrapping="WrapWithOverflow"/>
+		<TextBlock>Số lượng</TextBlock>
+		<TextBox Text="{Binding	Quantity}"/>
+		<TextBlock>Đơn vị</TextBlock>
+		<ComboBox Width="300" Items="{Binding Product.Units}" SelectedIndex="{Binding SelectedIndex}"/>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+			<Button Click="OK">OK</Button>
+			<Button Click="Cancel">Cancel</Button>
+		</StackPanel>
+	</StackPanel>
+</Window>

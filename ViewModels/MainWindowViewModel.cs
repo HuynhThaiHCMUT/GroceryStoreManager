@@ -21,23 +21,45 @@ namespace GroceryStoreManager.ViewModels
         public ICommand AddProductCommand { get; }
         public ICommand EditProductCommand { get; }
         public ICommand DeleteProductCommand { get; }
+        public ICommand FinishInvoiceCommand { get; }
+        public ICommand EditInvoiceCommand { get; }
+        public ICommand DeleteInvoiceCommand { get; }
         public ObservableCollection<Product> Query { get; set; }
+        public ObservableCollection<InvoiceItem> Invoice { get; set; }
+        private int sumTotal;
+        public int SumTotal
+        {
+            get => sumTotal;
+            set => this.RaiseAndSetIfChanged(ref sumTotal, value);
+        }
         private string searchText;
         public string SearchText
         {
             get => searchText;
             set => this.RaiseAndSetIfChanged(ref searchText, value);
         }
+        //Selected product in both sales and inventory panel
         private object selectedItem;
         public object SelectedItem
         {
             get => selectedItem;
             set => this.RaiseAndSetIfChanged(ref selectedItem, value);
         }
+        private int selectedInvoiceIndex;
+        public int SelectedInvoiceIndex
+        {
+            get => selectedInvoiceIndex;
+            set => this.RaiseAndSetIfChanged(ref selectedInvoiceIndex, value);
+        }
         public MainWindowViewModel()
         {
             Inventory = new Inventory();
             Inventory.Read();
+            SelectedInvoiceIndex = -1;
+            SumTotal = 0;
+            Query = new ObservableCollection<Product>(from p in Inventory.ProductList select p.Value);
+            Invoice = new ObservableCollection<InvoiceItem>();
+            this.WhenAnyValue(x => x.SearchText).Throttle(TimeSpan.FromMilliseconds(300)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(Search);
             AddProductCommand = ReactiveCommand.Create<Window>(async (Window w) =>
             {
                 var inputForm = new AddProductView(Inventory);
@@ -48,6 +70,7 @@ namespace GroceryStoreManager.ViewModels
                     Search(SearchText);
                 }
             });
+            //Enable inventory operation when SelectedItem (Product) is not null
             var opEnabled = this.WhenAnyValue(
                 x => x.SelectedItem,
                 (Func<object, bool>) (x => x != null));
@@ -72,8 +95,50 @@ namespace GroceryStoreManager.ViewModels
                     Search(SearchText);
                 }
             }, opEnabled);
-            Query = new ObservableCollection<Product>(from p in Inventory.ProductList select p.Value);
-            this.WhenAnyValue(x => x.SearchText).Throttle(TimeSpan.FromMilliseconds(300)).ObserveOn(RxApp.MainThreadScheduler).Subscribe(Search);
+            FinishInvoiceCommand = ReactiveCommand.Create<Window>(async (Window w) =>
+            {
+                Invoice.Clear();
+                SumTotal = 0;
+            });
+            var invoiceOpEnabled = this.WhenAnyValue(
+                x => x.SelectedInvoiceIndex,
+                x => x != -1);
+            EditInvoiceCommand = ReactiveCommand.Create<Window>(async (Window w) =>
+            {
+                int i = SelectedInvoiceIndex;
+                var inputForm = new AddInvoiceView(Invoice[i]);
+                var result = await inputForm.ShowDialog<InvoiceItem>(w);
+                if (result != null)
+                {
+                    SumTotal -= Invoice[i].Total;
+                    Invoice.RemoveAt(i);
+                    SumTotal += result.Total;
+                    Invoice.Insert(i, result);
+                }
+            }, invoiceOpEnabled);
+            DeleteInvoiceCommand = ReactiveCommand.Create<Window>(async (Window w) =>
+            {
+                MessageBox.MessageBoxResult result = await MessageBox.Show(w, "Xác nhận xoá sản phẩm?", "", MessageBox.MessageBoxButtons.YesNo);
+                if (result == MessageBox.MessageBoxResult.Yes)
+                {
+                    SumTotal -= Invoice[SelectedInvoiceIndex].Total;
+                    Invoice.RemoveAt(SelectedInvoiceIndex);
+                }
+            }, invoiceOpEnabled);
+            
+        }
+        public async void AddInvoice(Window w)
+        {
+            if (SelectedItem is Product p)
+            {
+                var inputForm = new AddInvoiceView(p);
+                var result = await inputForm.ShowDialog<InvoiceItem>(w);
+                if (result != null)
+                {
+                    SumTotal += result.Total;
+                    Invoice.Add(result);
+                }
+            }
         }
         private void Search(string s)
         {
@@ -86,13 +151,13 @@ namespace GroceryStoreManager.ViewModels
                 }
             }
         }
-        public bool Filter(string n, string s)
+        private bool Filter(string n, string s)
         {
             if (String.IsNullOrEmpty(s)) return true;
             else return (ToAscii(n.Trim()).Contains(ToAscii(s), StringComparison.OrdinalIgnoreCase));
         }
         //Copied from StackOverflow
-        public string ToAscii(string unicodeStr, bool skipNonConvertibleChars = true)
+        private string ToAscii(string unicodeStr, bool skipNonConvertibleChars = true)
         {
             if (string.IsNullOrWhiteSpace(unicodeStr))
             {

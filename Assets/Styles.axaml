@@ -54,4 +54,12 @@
 	<Style Selector="Button.OpButton:pressed">
 		<Setter Property="Background" Value="#424874"/>
 	</Style>
+	<Style Selector="ListBoxItem">
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+	</Style>
+	<Style Selector="Grid.ItemGrid > TextBlock">
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="Padding" Value="10"/>
+	</Style>
 </Styles>

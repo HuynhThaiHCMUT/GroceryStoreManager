@@ -41,38 +41,79 @@
 					<TextBlock Text="Tên đơn vị" Grid.Column="3"/>
 					<TextBlock Text="Giá" Grid.Column="4"/>
 				</Grid>
-				<ListBox Items="{Binding Query}" AutoScrollToSelectedItem="False">
+				<ListBox Items="{Binding Query}" SelectedItem="{Binding	SelectedItem}" AutoScrollToSelectedItem="False">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<Grid ColumnDefinitions="80,*,100,100,100">
-								<TextBlock Text="{Binding Id}"/>
-								<TextBlock Text="{Binding Name}" Grid.Column="1"/>
-								<TextBlock Text="{Binding Quantity}" Grid.Column="2"/>
-								<ItemsControl Grid.Column="3" Items="{Binding Units}">
-									<ItemsControl.ItemTemplate>
-										<DataTemplate>
-											<TextBlock Text="{Binding Name}"/>
-										</DataTemplate>
-									</ItemsControl.ItemTemplate>
-								</ItemsControl>
-								<ItemsControl Grid.Column="4" Items="{Binding Units}">
-									<ItemsControl.ItemTemplate>
-										<DataTemplate>
-											<TextBlock Text="{Binding Price}"/>
-										</DataTemplate>
-									</ItemsControl.ItemTemplate>
-								</ItemsControl>
-							</Grid>
+							<ListBoxItem DoubleTapped="Item_DoubleTapped">
+								<Grid Classes="ItemGrid" ColumnDefinitions="80,*,100,100,100">
+									<TextBlock Text="{Binding Id}"/>
+									<TextBlock Text="{Binding Name}" Grid.Column="1"/>
+									<TextBlock Text="{Binding Quantity}" Grid.Column="2"/>
+									<ItemsControl Grid.Column="3" Items="{Binding Units}">
+										<ItemsControl.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Name}"/>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+									<ItemsControl Grid.Column="4" Items="{Binding Units}">
+										<ItemsControl.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Price}"/>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+								</Grid>
+							</ListBoxItem>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
 			</StackPanel>
 			<GridSplitter Grid.Column="1" Background="Black" ResizeDirection="Columns" ZIndex="2"/>
-			<StackPanel Grid.Column="2">
-				<TextBlock Name="InvoiceHeader">
+			<DockPanel Grid.Column="2">
+				<DockPanel DockPanel.Dock="Bottom">
+					<Button DockPanel.Dock="Right" 
+							Command="{Binding FinishInvoiceCommand}" 
+							CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+						Thanh toán
+					</Button>
+					<Button DockPanel.Dock="Right"
+							Command="{Binding EditInvoiceCommand}"
+							CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+						Sửa
+					</Button>
+					<Button DockPanel.Dock="Right"
+							Command="{Binding DeleteInvoiceCommand}"
+							CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+						Xoá
+					</Button>
+					<TextBlock Text="Tổng"/>
+					<TextBlock Text="{Binding SumTotal}"/>
+				</DockPanel>
+				<TextBlock Name="InvoiceHeader" DockPanel.Dock="Top">
 					Hoá đơn
 				</TextBlock>
-			</StackPanel>
+				<Grid ColumnDefinitions="*,100,100,100,100" DockPanel.Dock="Top">
+					<TextBlock Text="Tên sản phẩm"/>
+					<TextBlock Text="Số lượng" Grid.Column="1"/>
+					<TextBlock Text="Tên đơn vị" Grid.Column="2"/>
+					<TextBlock Text="Giá" Grid.Column="3"/>
+					<TextBlock Text="Tổng" Grid.Column="4"/>
+				</Grid>
+				<ListBox Items="{Binding Invoice}" SelectedIndex="{Binding SelectedInvoiceIndex}" DockPanel.Dock="Top">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<Grid Classes="ItemGrid" ColumnDefinitions="*,100,100,100,100">
+								<TextBlock Text="{Binding Item.Name}"/>
+								<TextBlock Text="{Binding Quantity}" Grid.Column="1"/>
+								<TextBlock Text="{Binding BuyUnit.Name}" Grid.Column="2"/>
+								<TextBlock Text="{Binding BuyUnit.Price}" Grid.Column="3"/>
+								<TextBlock Text="{Binding Total}" Grid.Column="4"/>
+							</Grid>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</DockPanel>
 		</Grid>
 		<StackPanel Name="InventoryPanel" Grid.Row="1" IsVisible="{Binding #InventoryButton.IsChecked}">
 			<Grid ColumnDefinitions="*,Auto, Auto, Auto">
@@ -105,7 +146,7 @@
 			<ListBox Items="{Binding Query}" SelectedItem="{Binding	SelectedItem}" AutoScrollToSelectedItem="False">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<Grid ColumnDefinitions="80,*,100,100,100,100,100">
+						<Grid Classes="ItemGrid" ColumnDefinitions="80,*,100,100,100,100,100">
 							<TextBlock Text="{Binding Id}"/>
 							<TextBlock Text="{Binding Name}" Grid.Column="1"/>
 							<TextBlock Text="{Binding Quantity}" Grid.Column="2"/>

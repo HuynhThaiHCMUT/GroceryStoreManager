@@ -31,6 +31,10 @@ namespace GroceryStoreManager.Models
         {
             return Name.Replace(' ', '_') + " " + Weight.ToString() + " " + Price.ToString() + " " + BasePrice.ToString();
         }
+        public override string ToString()
+        {
+            return Name + ": " + Price.ToString();
+        }
     }
     public class Product
     {
@@ -126,15 +130,13 @@ namespace GroceryStoreManager.Models
         public Product Item { get; set; }
         public Unit BuyUnit { get; set; }
         public int Quantity { get; set; }
+        public int Total { get; set; }
         public InvoiceItem(Product item, Unit unit, int quantity)
         {
             Item = item;
             BuyUnit = unit;
             Quantity = quantity;
-        }
-        public int Total()
-        {
-            return BuyUnit.Price * Quantity;
+            Total = BuyUnit.Price * Quantity;
         }
         public int Revenue()
         {
@@ -155,14 +157,14 @@ namespace GroceryStoreManager.Models
         public int Add(InvoiceItem item)
         {
             ItemList.Add(item);
-            Total += item.Total();
-            return item.Total();
+            Total += item.Total;
+            return item.Total;
         }
         public int Remove(InvoiceItem item)
         {
             ItemList.Remove(item);
-            Total -= item.Total();
-            return item.Total();
+            Total -= item.Total;
+            return item.Total;
         }
     }
 }

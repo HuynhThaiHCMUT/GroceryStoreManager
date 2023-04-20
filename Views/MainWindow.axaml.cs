@@ -19,5 +19,9 @@ namespace GroceryStoreManager.Views
         {
             vm.Inventory.Save();
         }
+        public void Item_DoubleTapped(object sender, RoutedEventArgs e)
+        {
+            vm.AddInvoice(this);
+        }
     }
 }
