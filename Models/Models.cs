@@ -62,10 +62,10 @@ namespace GroceryStoreManager.Models
     }
     public class Inventory
     {
-        public Dictionary<long, Product> ProductList { get; set; }
+        public SortedDictionary<long, Product> ProductList { get; set; }
         public Inventory()
         {
-            ProductList = new Dictionary<long, Product>();
+            ProductList = new SortedDictionary<long, Product>();
         }
         //Read inventory data from text file
         public void Read()

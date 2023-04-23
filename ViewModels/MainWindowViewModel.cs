@@ -17,6 +17,7 @@ namespace GroceryStoreManager.ViewModels
         public Inventory Inventory { get; set; }
         public ObservableCollection<Product> Query { get; set; }
         public ObservableCollection<InvoiceItem> Invoice { get; set; }
+        public Window W { get; set; }
         public ICommand AddProductCommand { get; }
         public ICommand EditProductCommand { get; }
         public ICommand DeleteProductCommand { get; }
@@ -150,6 +151,18 @@ namespace GroceryStoreManager.ViewModels
         private void Search(string s)
         {
             Query.Clear();
+            //Open add invoice dialog if there is a barcode match
+            if (Int64.TryParse(SearchText, out long result))
+            {
+                if (Inventory.ProductList.ContainsKey(result))
+                {
+                    SelectedItem = Inventory.ProductList[result];
+                    AddInvoice(W);
+                    SearchText = string.Empty;
+                    return;
+                }
+            }
+            //Normal search
             foreach (var item in Inventory.ProductList)
             {
                 if (Filter(item.Value.Name, s))

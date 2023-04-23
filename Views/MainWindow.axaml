@@ -51,7 +51,7 @@
 				<TextBox Text="{Binding	SearchText}" Classes="SearchBar"></TextBox>
 			</DockPanel>
 			<!-- Item list -->
-			<Grid Classes="ItemGrid" ColumnDefinitions="80,*,100,100,100,100,100">
+			<Grid Classes="ItemGrid" ColumnDefinitions="130,*,100,100,100,100,100">
 				<TextBlock Text="ID"/>
 				<TextBlock Text="Tên sản phẩm" Grid.Column="1"/>
 				<TextBlock Text="Số lượng" Grid.Column="2"/>
@@ -63,7 +63,7 @@
 			<ListBox Items="{Binding Query}" SelectedItem="{Binding	SelectedItem}" AutoScrollToSelectedItem="False">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<Grid Classes="ItemGrid" ColumnDefinitions="80,*,100,100,100,100,100">
+						<Grid Classes="ItemGrid" ColumnDefinitions="130,*,100,100,100,100,100">
 							<TextBlock Text="{Binding Id}"/>
 							<TextBlock Text="{Binding Name}" Grid.Column="1"/>
 							<TextBlock Text="{Binding Quantity}" Grid.Column="2"/>
@@ -105,7 +105,7 @@
 			<!-- Product list -->
 			<StackPanel>
 				<TextBox Text="{Binding	SearchText}" Classes="SearchBar"></TextBox>
-				<Grid Classes="ItemGrid" ColumnDefinitions="80,*,100,100,100">
+				<Grid Classes="ItemGrid" ColumnDefinitions="130,*,100,100,100">
 					<TextBlock Text="ID"/>
 					<TextBlock Text="Tên sản phẩm" Grid.Column="1"/>
 					<TextBlock Text="Số lượng" Grid.Column="2"/>
@@ -116,7 +116,7 @@
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<ListBoxItem DoubleTapped="Item_DoubleTapped">
-								<Grid Classes="ItemGrid" ColumnDefinitions="80,*,100,100,100">
+								<Grid Classes="ItemGrid" ColumnDefinitions="130,*,100,100,100">
 									<TextBlock Text="{Binding Id}"/>
 									<TextBlock Text="{Binding Name}" Grid.Column="1"/>
 									<TextBlock Text="{Binding Quantity}" Grid.Column="2"/>

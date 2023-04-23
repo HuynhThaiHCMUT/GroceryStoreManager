@@ -12,7 +12,10 @@ namespace GroceryStoreManager.Views
         public MainWindow()
         {
             InitializeComponent();
-            vm = new MainWindowViewModel();
+            vm = new MainWindowViewModel
+            {
+                W = this
+            };
             DataContext = vm;
         }
         public void MainWindow_Closing(object sender, CancelEventArgs e)
