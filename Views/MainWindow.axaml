@@ -21,15 +21,12 @@
 	
 	<Grid RowDefinitions="Auto,1*">
 		<!-- Header button -->
-		<Grid Name="Header" Height="60" ColumnDefinitions="1*,1*,1*">
+		<Grid Name="Header" Height="60" ColumnDefinitions="*,*">
 			<RadioButton Name="InventoryButton" IsChecked="True" Classes="HeaderButton">
 				<TextBlock>Kho hàng</TextBlock>
 			</RadioButton>
 			<RadioButton Name="SalesButton" Classes="HeaderButton" Grid.Column="1">
 				<TextBlock>Hoá đơn</TextBlock>
-			</RadioButton>
-			<RadioButton Name="HistoryButton" Classes="HeaderButton" Grid.Column="2">
-				<TextBlock>Lịch sử</TextBlock>
 			</RadioButton>
 		</Grid>
 		<!-- Inventory panel -->

@@ -124,28 +124,4 @@ namespace GroceryStoreManager.Models
             return (BuyUnit.Price - BuyUnit.BasePrice) * Quantity;
         }
     }
-    public class Invoice
-    {
-        public List<InvoiceItem> ItemList { get; set; }
-        public DateTime Time { get; set; }
-        public int Total { get; set; }
-        public Invoice()
-        {
-            ItemList = new List<InvoiceItem>();
-            Time = DateTime.Now;
-            Total= 0;
-        }
-        public int Add(InvoiceItem item)
-        {
-            ItemList.Add(item);
-            Total += item.Total;
-            return item.Total;
-        }
-        public int Remove(InvoiceItem item)
-        {
-            ItemList.Remove(item);
-            Total -= item.Total;
-            return item.Total;
-        }
-    }
 }
