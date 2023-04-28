@@ -30,7 +30,7 @@
 			</RadioButton>
 		</Grid>
 		<!-- Inventory panel -->
-		<StackPanel Name="InventoryPanel" Grid.Row="1" IsVisible="{Binding #InventoryButton.IsChecked}">
+		<Grid Name="InventoryPanel" RowDefinitions="Auto,Auto,1*" Grid.Row="1" IsVisible="{Binding #InventoryButton.IsChecked}">
 			<!-- Header stuff -->
 			<DockPanel>
 				<Button Classes="OpButton" DockPanel.Dock="Right"
@@ -51,7 +51,7 @@
 				<TextBox Text="{Binding	SearchText}" Classes="SearchBar"></TextBox>
 			</DockPanel>
 			<!-- Item list -->
-			<Grid Classes="ItemGrid" ColumnDefinitions="130,*,100,100,100,100,100">
+			<Grid Classes="ItemGrid" Grid.Row="1" ColumnDefinitions="130,*,100,100,100,100,100">
 				<TextBlock Text="ID"/>
 				<TextBlock Text="Tên sản phẩm" Grid.Column="1"/>
 				<TextBlock Text="Số lượng" Grid.Column="2"/>
@@ -60,7 +60,7 @@
 				<TextBlock Text="Giá gốc" Grid.Column="5"/>
 				<TextBlock Text="Trọng số" Grid.Column="6"/>
 			</Grid>
-			<ListBox Items="{Binding Query}" SelectedItem="{Binding	SelectedItem}" AutoScrollToSelectedItem="False">
+			<ListBox Grid.Row="2" Items="{Binding Query}" SelectedItem="{Binding	SelectedItem}" AutoScrollToSelectedItem="False">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
 						<Grid Classes="ItemGrid" ColumnDefinitions="130,*,100,100,100,100,100">
@@ -99,20 +99,20 @@
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
-		</StackPanel>
+		</Grid>
 		<!-- Sales panel -->
 		<Grid Name="SalesPanel" Grid.Row="1" IsVisible="{Binding #SalesButton.IsChecked}" ColumnDefinitions="1*,1,1*">
 			<!-- Product list -->
-			<StackPanel>
+			<Grid RowDefinitions="Auto,Auto,1*">
 				<TextBox Text="{Binding	SearchText}" Classes="SearchBar"></TextBox>
-				<Grid Classes="ItemGrid" ColumnDefinitions="130,*,100,100,100">
+				<Grid Grid.Row="1" Classes="ItemGrid" ColumnDefinitions="130,*,100,100,100">
 					<TextBlock Text="ID"/>
 					<TextBlock Text="Tên sản phẩm" Grid.Column="1"/>
 					<TextBlock Text="Số lượng" Grid.Column="2"/>
 					<TextBlock Text="Tên đơn vị" Grid.Column="3"/>
 					<TextBlock Text="Giá" Grid.Column="4"/>
 				</Grid>
-				<ListBox Items="{Binding Query}" SelectedItem="{Binding	SelectedItem}" AutoScrollToSelectedItem="False">
+				<ListBox Grid.Row="2" Items="{Binding Query}" SelectedItem="{Binding SelectedItem}" AutoScrollToSelectedItem="False">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<ListBoxItem DoubleTapped="Item_DoubleTapped">
@@ -139,7 +139,7 @@
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
-			</StackPanel>
+			</Grid>
 			<GridSplitter Grid.Column="1" Background="Black" ResizeDirection="Columns" ZIndex="5"/>
 			<!-- Invoice list -->
 			<DockPanel Grid.Column="2" Background="White">

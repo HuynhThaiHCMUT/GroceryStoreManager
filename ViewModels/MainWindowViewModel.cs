@@ -52,7 +52,14 @@ namespace GroceryStoreManager.ViewModels
         public MainWindowViewModel()
         {
             Inventory = new Inventory();
-            Inventory.Read();
+            try
+            {
+                Inventory.Read();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(W, "Đọc dữ liệu thất bại", "Lỗi", MessageBox.MessageBoxButtons.Ok);
+            }
             SelectedInvoiceIndex = -1;
             SumTotal = 0;
             Query = new ObservableCollection<Product>(from p in Inventory.ProductList select p.Value);
